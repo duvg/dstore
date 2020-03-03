@@ -32,6 +32,7 @@ export interface IPagination {
 
 // Interface para el estado inicial
 export interface IInitialState {
+    fetched: boolean,
     fetching: boolean,
     data: [],
     current: object,
@@ -56,6 +57,7 @@ const GET_PRODUCT_SUCCESS = "GET_PRODUCT_SUCCESS";
 
 
 let initialState: IInitialState = {
+    fetched: false,
     fetching: false,
     data: [],
     current: {},
@@ -69,15 +71,22 @@ let initialState: IInitialState = {
 export default function reducer(state = initialState, action: AnyAction) {
     switch (action.type) {
         case GET_PRODUCTS_START:
-            return { ...state }
+            return {
+                ...state,
+                fetching: true,
+            }
         case GET_PRODUCTS_ERROR:
             return {
                 ...state,
+                fetched: false,
+                fetching: false,
                 error: true
             }
         case GET_PRODUCTS_SUCCESS:
             return { 
                 ...state,
+                fetched: true,
+                fetching: false,
                 data: action.payload.data,
                 paginationProducts: action.payload.paginationProducts
             }
