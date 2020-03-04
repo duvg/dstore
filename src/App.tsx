@@ -6,7 +6,7 @@ import Button from './components/common/Button';
 import Alert from './components/common/Alert';
 import Navbar from './components/Navbar';
 import Banner from './components/common/Banner';
-
+import Home from './containers/Home';
 function App() {
   function handleClick () {
     console.log("dale");
@@ -16,6 +16,7 @@ function App() {
       <Navbar/>
       <Container>
         <Banner />
+        <Home />
       </Container>
     </div>
   );

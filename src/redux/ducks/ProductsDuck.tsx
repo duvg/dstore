@@ -125,6 +125,7 @@ export const getProductsAction = () => async (dispatch: Dispatch) => {
         let productos = await getProducts();
         dispatch(getProductsSuccess(productos.data.data, productos.data.meta.pagination));
     } catch(e) {
+        
         dispatch(getProductsError());
     }
 }
