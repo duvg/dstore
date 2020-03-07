@@ -1,10 +1,6 @@
 import React from 'react';
 
-const styles = {
-    image: {
-        width: "100%"
-    }
-}
+
 const Banner = () => {
     return(
         <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">

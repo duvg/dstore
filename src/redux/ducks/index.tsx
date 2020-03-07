@@ -1,11 +1,11 @@
-import { IProducts, IPagination } from './ProductsDuck';
+import { IProducts, IPagination } from '../../Interfaces/ProductsInterfaces';
 export { default as Products } from './ProductsDuck';
 
 export interface IState {
     products: {
         data: IProducts,
-        pagination: IPagination
+        paginationProducts: IPagination
         fetched: boolean,
-        fetching: boolean
+        fetching: boolean,
     }
 }

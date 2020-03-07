@@ -11,6 +11,7 @@ interface IButtonProps {
     size?: string,
     handleClick: () => void
 }
+
 const Button = (props:IButtonProps) => {
 
     let {text, type, size, handleClick} = props;
