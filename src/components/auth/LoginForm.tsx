@@ -1,10 +1,37 @@
 import React from 'react';
+import { Field, reduxForm, InjectedFormProps} from 'redux-form';
 
-const LoginForm = () => {
+// Componentes
+import Button from '../common/Button';
+import Input from '../common/Input';
+
+const LoginForm = (props: InjectedFormProps) => {
+    const { handleSubmit } = props;
+
     return (
+        <form onSubmit={handleSubmit}>
+            <Field 
+                label="Correo" 
+                placeholder="Correo Electronico" 
+                name="email" 
+                type="email" 
+                component={Input}
+            />
+            <Field
+                label="Contraseña"
+                placeholder="Ingresa tu contraseña"
+                name="password"
+                type="password"
+                component={Input}
+            />
+            <Button tipo="primary" size="large">Iniciar Sesion</Button>
 
-        <h2>Formulario de inicio de sesion</h2>
+        </form>
+        
     )
 }
 
-export default LoginForm;
+
+export default reduxForm({
+    form: 'login'
+})(LoginForm);
