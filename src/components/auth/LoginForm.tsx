@@ -24,13 +24,11 @@ const LoginForm = (props: InjectedFormProps) => {
                 type="password"
                 component={Input}
             />
-            <Button tipo="primary" size="large">Iniciar Sesion</Button>
+            <Button tipo="primary" size="block">Iniciar Sesion</Button>
 
-        </form>
-        
+        </form> 
     )
 }
-
 
 export default reduxForm({
     form: 'login'

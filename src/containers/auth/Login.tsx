@@ -23,10 +23,15 @@ const Login = (props: ILoginProps) => {
     const { login }: any = props;
     return(
         <Container>
-            <Card>
-                <Title text="Iniciar Sesion"/>
-                <LoginForm onSubmit={login}/>
-            </Card>
+            <div className="row  justify-content-center h-100">
+                <div className="col-md-4 text-left my-auto">
+                <Card>
+                    <Title text="Iniciar Sesion"/>
+                    <LoginForm onSubmit={login}/>
+                </Card>
+                </div>
+            </div>
+            
         </Container>
     );
 }

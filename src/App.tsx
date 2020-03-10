@@ -8,7 +8,7 @@ import Routes from './Routes';
 function App() {
   
   return (
-    <div className="App">
+    <div className="h-100">
       <Navbar/>
       <Routes />
       

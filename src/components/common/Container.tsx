@@ -8,7 +8,7 @@ interface IContainerProps {
 const Container = (props: IContainerProps) => {
     let { title, children } = props;
     return (
-        <div className="container">
+        <div className="container h-100 " >
             <div className="row">
                 <div className="col-12">
                 { title && <div className="title"><h2>{title}</h2><hr/></div> }
