@@ -1,8 +1,5 @@
 import React from 'react';
 
-import { connect } from 'react-redux';
-import { IState } from '../../redux/ducks/index';
-import Container from '../../components/common/Container';
 import RegisterForm from '../../components/auth/RegisterForm';
 
 // Components
