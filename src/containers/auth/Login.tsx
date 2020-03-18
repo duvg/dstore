@@ -24,7 +24,7 @@ const Login = (props: ILoginProps) => {
     return(
         <Container>
             <div className="row  justify-content-center h-100">
-                <div className="col-md-4 text-left my-auto">
+                <div className="col-md-6 col-xs-8 col-lg-4 col-sm-8 text-left my-auto">
                 <Card>
                     <Title text="Iniciar Sesion"/>
                     <LoginForm onSubmit={login}/>

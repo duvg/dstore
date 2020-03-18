@@ -3,17 +3,21 @@ import React from 'react';
 interface ICardProps {
     children?: object 
 }
-
 const styles = {
-    maxWidth: '400px'
+    cardContainer: {
+        border: 'thin solid #bdbbbb'
+    } as React.CSSProperties,
+    cardBody: {
+        maxWidth: '400px' 
+    }
 }
 
 const Card = (props: ICardProps) => {
     let { children } = props;
     return(
-        <div className="card bg-light my-auto">
+        <div className="card bg-light my-auto customCard" style={styles.cardContainer}>
             
-            <article className="card-body" style={styles}>
+            <article className="card-body" style={styles.cardBody}>
                 {children}
             </article>
         </div>

@@ -7,7 +7,7 @@ export interface ILoginProps {
     login: (a: ILogin) => void
 }
 
-// Datos del usuario
+// Datos del usuario auteticado
 export interface IAuthUser {
     identificador: string,
     nombre: string,
@@ -16,6 +16,18 @@ export interface IAuthUser {
     esAdministrador: boolean,
     fechaCreacion: string,
     fechaActualizacion: string,
+}
+
+// Datos usuario registro
+export interface IUserData {
+    nombre: string,
+    correo: string,
+    clave: 'string',
+    confirmacion_clave: string
+}
+
+export interface IRegisterProps {
+    register: (a: IUserData) => void
 }
 
 // para grant_type: password
