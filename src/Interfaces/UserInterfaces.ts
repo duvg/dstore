@@ -30,10 +30,12 @@ export interface IRegisterProps {
     register: (a: IUserData) => void
 }
 
-// para grant_type: password
-export interface IAuthToken {
-    token_type: string,
-    expires_in: number,
+export interface IToken {
     access_token: string,
-    refresh_token: string
+    token_type: string,
+    expires_in: string,
+}
+export interface IAuthToken {
+    token: IToken,
+    user: IAuthUser
 }

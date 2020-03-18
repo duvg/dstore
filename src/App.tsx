@@ -11,7 +11,7 @@ import { IState } from './redux/ducks';
 function App(state: IState) {
   // Validar al usuario autenticado
   const [token, setToken] = useState('');
-  console.log(state);
+
   useEffect(() => {
 
   }, [token]);

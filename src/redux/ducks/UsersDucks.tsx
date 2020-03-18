@@ -37,7 +37,8 @@ export default function reducer(state = {}, action: AnyAction) {
         case SUCCESS_USER_LOGIN:
             return {
                 ...state,
-                token: action.payload,
+                token: action.payload.token,
+                data: action.payload.user,
                 autenticated:  true
             }
         // Registro de usuarios
@@ -129,9 +130,24 @@ export const login = ({email, password}: ILogin) =>
         dispatch(startRegister());
         try {
             const result = await Login(email, password);
-            dispatch(successLogin(result.data));
+            
+            // Extraer datos del usuario
+            let { data } = result.data.user
+
+            // reorganizar datos
+            let token = {
+                access_token: result.data.access_token,
+                token_type: result.data.token_type,
+                expires_in: result.data.expires_in,
+            };
+            let authData = {
+                token: token,
+                user: data
+            }
+            
+            dispatch(successLogin(authData));
         
-            getAuthUser(dispatch, getState().users.token.access_token);
+            
         } catch (error) {
             dispatch(errorRegister(error));
         }        
@@ -145,7 +161,6 @@ export const register = (user: IUserData) =>
             const result = await Register(user) ;
             dispatch(successRegister(result.data));
         
-            getAuthUser(dispatch, getState().users.token.access_token);
         } catch (error) {
             dispatch(errorLogin("Error intenta nuevamente"));
         }        
