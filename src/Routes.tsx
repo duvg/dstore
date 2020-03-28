@@ -1,10 +1,12 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from './containers/Home';
 import Login from './containers/auth/Login';
 import Register from './containers/auth/Register';
-
-function Routes() {
+interface IRouteProps {
+    auth?: boolean
+}
+function Routes(props: any) {
     return (
         <Switch>
             <Route exact path='/' component={Home} />

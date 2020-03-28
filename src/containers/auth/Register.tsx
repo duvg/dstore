@@ -19,6 +19,7 @@ import { register as registerThunk } from '../../redux/ducks/UsersDucks';
 // Components
 const Register = (props: IRegisterProps) => {
     const { register }: any = props;
+    console.log(props);
     return(
         <Container>
             

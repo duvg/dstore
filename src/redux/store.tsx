@@ -1,14 +1,13 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import productsReducer, {getProductsAction} from './ducks/ProductsDuck';
-import usersResucer from './ducks/UsersDucks';
+import usersReducer from './ducks/UsersDucks';
 import thunk from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
 
 let rootReducer = combineReducers({
     products: productsReducer,
-    users: usersResucer,
+    users: usersReducer,
     form: formReducer
-
 })
 
 export default function generateStore() {
@@ -16,7 +15,11 @@ export default function generateStore() {
         rootReducer,
         compose(
             applyMiddleware(thunk),
-            (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+            (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+                trace: true, // (action) => { return ‘trace as string’; }
+                traceLimit: 25,
+             }) && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+            //(window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__()
         ) 
     );
 

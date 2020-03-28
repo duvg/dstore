@@ -17,7 +17,7 @@ const Card = (props: ICardProps) => {
     return(
         <div className="card bg-light my-auto customCard" style={styles.cardContainer}>
             
-            <article className="card-body" style={styles.cardBody}>
+            <article className="card-body" >
                 {children}
             </article>
         </div>

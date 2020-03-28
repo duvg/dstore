@@ -1,35 +1,76 @@
 import React from 'react';
-import { Field, reduxForm, InjectedFormProps} from 'redux-form';
+import * as Yup from 'yup';
 
-// Componentes
-import Button from '../common/Button';
-import Input from '../common/Input';
+import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
+import Error from '../common/Error';
 
-const LoginForm = (props: InjectedFormProps) => {
-    const { handleSubmit } = props;
+interface FormValues {
+    email: string,
+    password: string
+}
 
+
+const InnerForm = (props: FormikProps<FormValues>) => {
+    const { touched, errors, isSubmitting} = props;
     return (
-        <form onSubmit={handleSubmit}>
-            <Field 
-                label="Correo" 
-                placeholder="Correo Electronico" 
-                name="email" 
-                type="email" 
-                component={Input}
-            />
-            <Field
-                label="Contraseña"
-                placeholder="Ingresa tu contraseña"
-                name="password"
-                type="password"
-                component={Input}
-            />
-            <Button tipo="primary" size="block">Iniciar Sesion</Button>
-
-        </form> 
+        <Form>
+            <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <Field
+                    type="email"
+                    name="email"
+                    className="form-control"
+                />
+                {touched.email && errors.email && 
+                    <Error color="danger" message={errors.email}  />
+                }
+            </div>
+            <div className="form-group">
+                <label htmlFor="password">Password</label>
+                <Field
+                    type="password"
+                    name="password"
+                    className="form-control"
+                />
+                {touched.password && errors.password && 
+                    <Error color="danger" message={errors.password}  />
+                }
+            </div>
+            <button type="submit" className="btn btn-primary btn-block" disabled={isSubmitting}>Iniciar Sesion</button>
+        </Form>
     )
 }
 
-export default reduxForm({
-    form: 'login'
-})(LoginForm);
+interface MyFormProps {
+    initialEmail?: string,
+    handleLogin: any
+}
+
+
+// Valdiate form
+const LoginSchema = Yup.object().shape({
+    email: Yup.string()
+        .email("Email invalido")
+        .required('Email es requerido'),
+    password: Yup.string()
+        .min(6, 'El password debe contener almenos 6 caracteres')
+        .required('Password es requerido')
+});
+const LoginForm = withFormik<MyFormProps, FormValues>({
+    
+    mapPropsToValues: props => {
+        return {
+            email: props.initialEmail || '',
+            password: ''
+        };
+    },
+    validationSchema: LoginSchema,
+    handleSubmit: (values, formikBag) => {
+
+        const { handleLogin } = formikBag.props;
+        handleLogin(values);
+        formikBag.setSubmitting(false);
+    }
+})(InnerForm);
+
+export default LoginForm;

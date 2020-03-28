@@ -1,7 +1,7 @@
 import { AnyAction, Dispatch} from 'redux';
 import { IState } from './index';
-import { IAuthUser, IAuthToken, ILogin, IUserData } from '../../Interfaces/UserInterfaces';
-import { login as Login, register as Register, getAuthUserData } from '../../services/api/UsersServices';
+import { IAuthUser, IAuthToken, ILogin, IUserData, UserInitialState } from '../../Interfaces/UserInterfaces';
+import { login as Login, register as Register, resetPassword } from '../../services/api/UsersServices';
 
 
 // Constantes
@@ -21,9 +21,34 @@ const START_AUTH_USERDATA = "START_AUTH_USERDATA";
 const ERROR_AUTH_USERDATA = "ERROR_AUTH_USERDATA";
 const SUCCESS_AUTH_USERDATA = "SUCCESS_AUTH_USERDATA";
 
+// Recuperar contraseña
+const START_RECOVERY_PASSWORD = "START_RECOVERY_PASSWORD";
+const ERROR_RECOVERY_PASSWORD = "ERROR_RECOVERY_PASSWORD";
+const SUCCESS_RECOVERY_PASSWORD = "SUCCESS_RECOVERY_PASSWORD"; 
+
+
+const InitialState: UserInitialState = {
+    token: {
+        access_token: '',
+        token_type: '',
+        expires_in: ''
+    },
+    data: {
+        identificador: '',
+        nombre: '',
+        correo: '',
+        verificado: 0,
+        esAdministrador: false,
+        fechaCreacion: '',
+        fechaActualizacion: '',
+    },
+    authenticated: false,
+    authError: null,
+}
+
 
 // Reducer
-export default function reducer(state = {}, action: AnyAction) {
+export default function reducer(state = InitialState, action: AnyAction) {
     switch (action.type) {
         // Inicio de sesion
         case START_USER_LOGIN:
@@ -39,7 +64,8 @@ export default function reducer(state = {}, action: AnyAction) {
                 ...state,
                 token: action.payload.token,
                 data: action.payload.user,
-                autenticated:  true
+                authenticated:  true,
+                authError: null
             }
         // Registro de usuarios
         case START_REGISTER_USER:
@@ -69,6 +95,21 @@ export default function reducer(state = {}, action: AnyAction) {
                 ...state,
                 data: action.payload,
                 errorAuthUserData: ''
+            }
+        // Recuperar contraseña
+        case START_RECOVERY_PASSWORD:
+            return {
+                ...state
+            }
+        case ERROR_RECOVERY_PASSWORD:
+            return {
+                ...state,
+                errorRecovery: action.payload
+            }
+        case SUCCESS_RECOVERY_PASSWORD:
+            return {
+                ...state,
+                recoveryPassword: action.payload
             }
         default:
             return state;
@@ -102,33 +143,34 @@ const errorRegister = (error: string) => ({
     payload: error
 });
 
-
 const successRegister = (data: IUserData) => ({
     type: SUCCESS_REGISTER_USER,
     payload: data
 });
 
-// Consulta de los datos del usuario logueado
-const startAuthUserData = () => ({
-    type: START_AUTH_USERDATA,
+// Recuperacion de contraseña
+const startRecoveryPassword = () => ({
+    type: START_RECOVERY_PASSWORD
 });
 
-const errorAuthUserData = (error: string) => ({
-    type: ERROR_AUTH_USERDATA,
+const errorRecoveryPassword = (error: string) => ({
+    type: ERROR_RECOVERY_PASSWORD,
     payload: error
 });
 
-const successAuthUserData = (data: IAuthUser) => ({
-    type: SUCCESS_AUTH_USERDATA,
+const successRecoveryPassword = (data: string) => ({
+    type: SUCCESS_RECOVERY_PASSWORD,
     payload: data
 });
 
 // Thunks actions
 // Iniciar sesion
-export const login = ({email, password}: ILogin) =>
+export const login = ({email, password}: ILogin) =>    
     async (dispatch: Dispatch, getState: () => IState) => {
-        dispatch(startRegister());
+
+        dispatch(startLogin());
         try {
+            console.log("iniciando sesion");
             const result = await Login(email, password);
             
             // Extraer datos del usuario
@@ -144,13 +186,13 @@ export const login = ({email, password}: ILogin) =>
                 token: token,
                 user: data
             }
-            
+            console.log(result);
             dispatch(successLogin(authData));
         
             
         } catch (error) {
-            dispatch(errorRegister(error));
-        }        
+            dispatch(errorLogin(error));
+        } 
     }
 
 // Registro de usuario
@@ -166,15 +208,16 @@ export const register = (user: IUserData) =>
         }        
     }
 
-// Obtener los datos del usuario autenticado 
-async function getAuthUser (dispatch: Dispatch, token: string) {
-    
-        dispatch(startAuthUserData());
+export const recoveryPassword = (email: string) =>
+    async (dispatch: Dispatch, getState: () => IState) => {
+        dispatch(startRecoveryPassword());
         try {
-            const result = await getAuthUserData(token);
-            dispatch(successAuthUserData(result.data.data));
-        } catch (error) {
-            dispatch(errorAuthUserData("Error al obtener los datos del usuario porfavor intente nuevamente"));
+            const result = await resetPassword(email);
+            dispatch(successRecoveryPassword('Se envio un email de recuperación'));            
+        } catch(error) {
+            dispatch(errorRecoveryPassword('Error Itente nuevamente mas tarde'));
         }
-} 
+    }
+
+
     

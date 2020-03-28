@@ -1,29 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import Navbar from './components/Navbar';
-import { connect } from 'react-redux';
+import Preloader from './components/common/Preload';
+
 
 // Rutas
 import Routes from './Routes';
-import { IState } from './redux/ducks';
 
 
-function App(state: IState) {
-  // Validar al usuario autenticado
-  const [token, setToken] = useState('');
 
-  useEffect(() => {
+function App() {  
+  const [load, setLoad] = useState(false);
+  console.log(load);
+  useEffect(
+    () => {
+      
+      setLoad(true);
+      console.log(load);
+    }, []
+  );
 
-  }, [token]);
-
+  console.log(load);
 
   return (
+    
     <div className="h-100">
       <Navbar/>
-      <Routes />
+      {load ? <Routes /> : <Preloader/>}
+      
     </div>
   );
 }
 
-const mapStateToProps = (state: IState) => state;
-export default connect(mapStateToProps)(App);
+
+export default App;

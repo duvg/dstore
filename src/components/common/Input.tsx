@@ -13,7 +13,7 @@ const Input = (props: WrappedFieldProps & IInputProps) => {
     return(
         <div className="form-group ">
             <label htmlFor={name}>{label}</label>
-            <input {...props} {...props.input} className="form-control"/>
+            <input {...props} {...props.input}  className="form-control"/>
         </div>
     ); 
 }

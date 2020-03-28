@@ -39,3 +39,11 @@ export interface IAuthToken {
     token: IToken,
     user: IAuthUser
 }
+
+
+export interface UserInitialState {
+    token: IToken,
+    data: IAuthUser,
+    authenticated: boolean,
+    authError: null
+}

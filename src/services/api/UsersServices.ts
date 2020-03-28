@@ -26,3 +26,15 @@ export async function getAuthUserData(token: string) {
     }
     return await axios.post(`${config.url}/users`,{}, {headers});
 }
+
+// Recuperar la contraseña de un usuario por su email
+export async function resetPassword(email: string) {
+    const headers = {
+        'Content-Type': 'application/json'
+    };
+    const uri = `${config.url}/password/emails`;
+
+    
+    return await axios.post(uri, email, {headers});
+    
+}

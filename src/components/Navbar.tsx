@@ -1,7 +1,8 @@
 import React from  'react';
 import Icon from './common/Icon';
+import { Link } from 'react-router-dom';
 
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+import { faShoppingCart, faLock } from '@fortawesome/free-solid-svg-icons'
 
 const styles = {
     shopping: {
@@ -15,11 +16,11 @@ const styles = {
 }
 
 const Navbar = () => {
-
+    
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
             <div className="container">
-                <a href="/" className="navbar-brand" >Duvg</a>
+                <Link to={'/'} className="navbar-brand">Duvg</Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -46,8 +47,15 @@ const Navbar = () => {
 
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <a href="/" className="nav-link" style={styles.shopping}> <Icon icon={faShoppingCart} />   </a>
+                            <a href="/" className="nav-link mr-2" style={styles.shopping}> <Icon icon={faShoppingCart} />   </a>
                         </li>
+                        <li className="nav-item">
+                            <Link to={'/login'} className="navbar-brand">
+                                <Icon icon={faLock} /> Iniciar Sesion 
+                            </Link>
+                            
+                        </li>
+                        
                         <li className="nav-item dropdown">
                             <a href="/" className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Admin user
