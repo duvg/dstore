@@ -1,76 +1,42 @@
 import React from 'react';
-import * as Yup from 'yup';
 
-import { withFormik, FormikProps, FormikErrors, Form, Field } from 'formik';
-import Error from '../common/Error';
+import { useForm } from 'react-hook-form';
+import Message from '../common/Message';
 
-interface FormValues {
-    email: string,
-    password: string
-}
+const LoginForm = (props: any) => {
+    const { register, handleSubmit, errors } = useForm();
+    const { handleLogin } = props;
 
-
-const InnerForm = (props: FormikProps<FormValues>) => {
-    const { touched, errors, isSubmitting} = props;
     return (
-        <Form>
+        <form onSubmit={handleSubmit(handleLogin)}>
             <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <Field
+                <input 
                     type="email"
                     name="email"
                     className="form-control"
+                    placeholder="example@mail.com"
+                    ref={register({ required: true })}
                 />
-                {touched.email && errors.email && 
-                    <Error color="danger" message={errors.email}  />
-                }
+                {errors.email && <Message color="danger" message='Email es requerido' />}
+                
             </div>
             <div className="form-group">
                 <label htmlFor="password">Password</label>
-                <Field
+                <input 
                     type="password"
                     name="password"
                     className="form-control"
+                    ref={register({ required: true, minLength: 6})}
                 />
-                {touched.password && errors.password && 
-                    <Error color="danger" message={errors.password}  />
-                }
+                {errors.password && <Message color="danger" message="Password es requerido" />}
+                {errors.password && 
+                 errors.password.type === "minLength" 
+                 && <Message color="danger" message='Password demasiado corto'  />}
             </div>
-            <button type="submit" className="btn btn-primary btn-block" disabled={isSubmitting}>Iniciar Sesion</button>
-        </Form>
-    )
+            <button type="submit" className="btn btn-primary">Iniciar Sesion</button>
+        </form>
+    ); 
 }
-
-interface MyFormProps {
-    initialEmail?: string,
-    handleLogin: any
-}
-
-
-// Valdiate form
-const LoginSchema = Yup.object().shape({
-    email: Yup.string()
-        .email("Email invalido")
-        .required('Email es requerido'),
-    password: Yup.string()
-        .min(6, 'El password debe contener almenos 6 caracteres')
-        .required('Password es requerido')
-});
-const LoginForm = withFormik<MyFormProps, FormValues>({
-    
-    mapPropsToValues: props => {
-        return {
-            email: props.initialEmail || '',
-            password: ''
-        };
-    },
-    validationSchema: LoginSchema,
-    handleSubmit: (values, formikBag) => {
-
-        const { handleLogin } = formikBag.props;
-        handleLogin(values);
-        formikBag.setSubmitting(false);
-    }
-})(InnerForm);
 
 export default LoginForm;

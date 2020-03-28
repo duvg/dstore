@@ -1,72 +1,25 @@
 import React from 'react';
-import * as Yup from 'yup';
+import { useForm } from 'react-hook-form';
+import Message from '../common/Message';
 
-import { withFormik,FormikProps, Form, Field } from 'formik';
-import Error from '../common/Error';
-
-interface IFormValues {
-    email: string
-}
-interface IOtherProps {
-    recovery?: string
-}
-
-const InnrForm = (props: IOtherProps & FormikProps<IFormValues>) => {
-    const { touched, errors, isSubmitting, recovery} = props;
-
-    return(
-        <Form>
-            {recovery && 
-                <Error color="success" message={recovery} />
-            }
+const RecoveryPassForm = (props: any) => {
+    const { register, errors, handleSubmit } = useForm();
+    const { message, customHandleSubmit } = props;
+    return (
+        <form onSubmit={handleSubmit(customHandleSubmit)}>
+            {message && <Message color="success" message={message} />}
             <div className="form-group">
-                <label htmlFor="email">Email:</label>
-                <Field
+                <label htmlFor="email">Email</label>
+                <input
                     name="email"
                     type="email"
                     className="form-control"
+                    ref={register({ required: true })}
                 />
-                { touched.email && errors.email &&
-                    <Error color="danger" message={errors.email} />
-                }
+                { errors.email && <Message color="danger" message="Email es requerido" />}
             </div>
-            <button 
-                className="btn btn-primary btn-block" 
-                disabled={isSubmitting}
-            >
-                Recuperar Password
-            </button>
-        </Form>
-    );
+            <button className="btn btn-primary btn-block">Enviar link de recuperación</button>
+        </form>
+    )
 }
-
-interface IMyFormProps {
-    initialEmail?: string,
-    handleRecovery: (values: {}) => void,
-    recovery?: string
-}
-
-// Reglas de validacion
-const RecoverySchema = Yup.object().shape({
-    email: Yup.string()
-        .email('Email invalido')
-        .required('Email es requerido')
-});
-
-const RecoveryPassForm = withFormik<IOtherProps & IMyFormProps, IFormValues>({
-    mapPropsToValues: props =>{
-        return {
-            email: props.initialEmail || '',
-            recovery: props.recovery || ''
-        }
-    },
-    validationSchema: RecoverySchema,
-    handleSubmit: (values, formikBag) => {
-        const { handleRecovery } = formikBag.props;
-        handleRecovery(values);
-        formikBag.setSubmitting(false);
-    }
-
-})(InnrForm);
-
 export default RecoveryPassForm;

@@ -58,7 +58,7 @@ function Login(props: ILoginProps) {
                 >
                     <Card>
                         <Title text="Recuperar Contraseña"/>
-                        <RecoveryPassForm  handleRecovery={recoveryPassword} recovery={users.recoveryPassword} />
+                        <RecoveryPassForm  customHandleSubmit={recoveryPassword} message={users.recoveryPassword} />
                         <button 
                             className="btn btn-link btn-block" 
                             onClick={() => setRecovery(false)}

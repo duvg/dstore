@@ -27,7 +27,7 @@ const Register = (props: IRegisterProps) => {
                 <div className="col-xs-8 col-md-6 col-sm-8 col-lg-4 text-left my-auto">
                     <Card>
                         <Title text="Registrate" />
-                        <RegisterForm onSubmit={register}/>
+                        <RegisterForm customHandleSubmit={register}/>
                     </Card>
                 </div>
             

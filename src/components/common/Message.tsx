@@ -1,10 +1,10 @@
 import React from 'react';
 
-interface IErrorProps {
+interface IMessageProps {
     color: string,
     message: string
 }
-const Error = ({color, message}: IErrorProps) => {  
+const Message = ({color, message}: IMessageProps) => {  
     return (
         <div className={`alert alert-${color} mt-1`} role="alert">
             {message}
@@ -12,4 +12,4 @@ const Error = ({color, message}: IErrorProps) => {
     );
 }
 
-export default Error;
+export default Message;
