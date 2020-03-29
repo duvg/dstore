@@ -6,7 +6,7 @@ interface IMessageProps {
 }
 const Message = ({color, message}: IMessageProps) => {  
     return (
-        <div className={`alert alert-${color} mt-1`} role="alert">
+        <div className={`alert alert-${color} mt-1 text-center`} role="alert">
             {message}
         </div>
     );

@@ -199,9 +199,10 @@ export const login = ({email, password}: ILogin) =>
 export const register = (user: IUserData) => 
     async (dispatch: Dispatch, getState: () => IState) => {
         dispatch(startLogin());
-        try {
+        try {        
             const result = await Register(user) ;
-            dispatch(successRegister(result.data));
+            console.log(result);
+            dispatch(successRegister(result.data.data));
         
         } catch (error) {
             dispatch(errorLogin("Error intenta nuevamente"));

@@ -1,13 +1,15 @@
+// Interface para los campos provenientes del LoginForm
 export interface ILogin {
     email: string,
     password: string
 }
 
+// Interface para el inicio de sesion
 export interface ILoginProps {
     login: (a: ILogin) => void
 }
 
-// Datos del usuario auteticado
+// Interface datos del usuario auteticado
 export interface IAuthUser {
     identificador: string,
     nombre: string,
@@ -18,7 +20,7 @@ export interface IAuthUser {
     fechaActualizacion: string,
 }
 
-// Datos usuario registro
+// Iterface para datos de usuario -  registro
 export interface IUserData {
     nombre: string,
     correo: string,
@@ -26,24 +28,35 @@ export interface IUserData {
     confirmacion_clave: string
 }
 
+// Interface para la función de registro de usuario
 export interface IRegisterProps {
     register: (a: IUserData) => void
 }
 
+// Interface para el token de autorizacion
 export interface IToken {
     access_token: string,
     token_type: string,
     expires_in: string,
 }
+
+// Interface de los datos del usuario autenticado 
 export interface IAuthToken {
     token: IToken,
     user: IAuthUser
 }
 
-
+// Interface del estado inicial del usuario
 export interface UserInitialState {
     token: IToken,
     data: IAuthUser,
     authenticated: boolean,
     authError: null
+}
+
+// Interface para el formulario de login y recuperación de contraseña
+export interface IAuthFormProps {
+    customHandleSubmit: () => void,
+    userId?: string,
+    message?: string
 }

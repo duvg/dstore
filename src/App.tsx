@@ -11,16 +11,13 @@ import Routes from './Routes';
 
 function App() {  
   const [load, setLoad] = useState(false);
-  console.log(load);
   useEffect(
     () => {
       
       setLoad(true);
-      console.log(load);
     }, []
   );
 
-  console.log(load);
 
   return (
     

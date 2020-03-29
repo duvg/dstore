@@ -2,7 +2,10 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import Message from '../common/Message';
 
-const RecoveryPassForm = (props: any) => {
+// import interfaces 
+import { IAuthFormProps } from '../../Interfaces/UserInterfaces';
+
+const RecoveryPassForm = (props: IAuthFormProps) => {
     const { register, errors, handleSubmit } = useForm();
     const { message, customHandleSubmit } = props;
     return (

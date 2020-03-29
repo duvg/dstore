@@ -7,6 +7,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import Product from '../components/Product/Product';
 import { IState } from '../redux/ducks';
 import { IProducts, IPagination } from '../Interfaces/ProductsInterfaces';
+import Slider from '../components/common/Slider';
 
 interface IHomeProps {
  data: IProducts,
@@ -19,13 +20,14 @@ const Home = (props: IHomeProps) => {
 
     return(
         <div>
-            <h2>Container home</h2>
+            
             {loading && <h1>Cargando</h1>}
+            <Slider />
             <div className="row">
                     {Object.keys(data).map(x => {
                         const product = data[x];
                         return(
-                            <div className="col-md-3 text-left mb-4" key={x}>
+                            <div className="col-md-2 text-left mb-4" key={x}>
                                 <Product product={product} />
                                 
                             </div>

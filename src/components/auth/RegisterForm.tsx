@@ -1,18 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import Message from '../common/Message';
 
-// Componentes
-import Button from '../common/Button';
-import Input from '../common/Input';
 
+// Interfaces
+import { IAuthFormProps } from '../../Interfaces/UserInterfaces';
 
-const RegisterForm = (props: any) => {
-     const { register, errors, watch, handleSubmit } = useForm();
-     const { customHandleSubmit } = props;
-     console.log(errors);
+const RegisterForm = (props: IAuthFormProps) => {
+     const { register, errors, watch, handleSubmit, formState } = useForm();
+     const { customHandleSubmit, userId } = props;
+     const {isSubmitting} = formState;
+     console.log(props);
+
+     
+     
      return(
-          <form onSubmit={handleSubmit(customHandleSubmit)}>
+          
+          <form onSubmit={handleSubmit(customHandleSubmit)} noValidate>
+               {userId && <Message color="success" message="" />}
                <div className="form-group">
                     <label htmlFor="nombre">Nombre</label>
                     <input 
@@ -27,13 +32,23 @@ const RegisterForm = (props: any) => {
                <div className="form-group">
                     <label htmlFor="Email">Email</label>
                     <input 
-                         name="email"
+                         name="correo"
                          type="email"
                          placeholder="duvi@mail.com"
                          className="form-control"
-                         ref={register({ required: true})}
+                         ref={register({ 
+                              required: true,
+                              pattern: {
+                                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                   message: "El email ingresado no es valido"
+                              }
+                         })}
                     />
-                    { errors.email && <Message color="danger" message="Email es requerido" />}
+                    { errors.correo && <Message color="danger" message="Email es requerido" />}
+                    { errors.correo && 
+                      errors.correo.type === 'pattern' && 
+                      <Message color="danger" message={errors.correo.message} />
+                    }
                </div>
                <div className="form-group">
                     <label htmlFor="password">Contraseña</label>
@@ -69,7 +84,7 @@ const RegisterForm = (props: any) => {
                       && <Message color="danger" message="Las claves no coinciden" />
                     }
                </div>
-               <button type="submit" className="btn btn-primary btn-block">Registratme</button>
+               <button type="submit" className="btn btn-primary btn-block"  disabled={isSubmitting} >Registratme</button>
           </form>
      );
 }

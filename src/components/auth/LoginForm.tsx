@@ -3,12 +3,15 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import Message from '../common/Message';
 
-const LoginForm = (props: any) => {
+// import interfaces 
+import { IAuthFormProps } from '../../Interfaces/UserInterfaces';
+
+const LoginForm = (props: IAuthFormProps) => {
     const { register, handleSubmit, errors } = useForm();
-    const { handleLogin } = props;
+    const { customHandleSubmit } = props;
 
     return (
-        <form onSubmit={handleSubmit(handleLogin)}>
+        <form onSubmit={handleSubmit(customHandleSubmit)}>
             <div className="form-group">
                 <label htmlFor="email">Email</label>
                 <input 
@@ -34,7 +37,7 @@ const LoginForm = (props: any) => {
                  errors.password.type === "minLength" 
                  && <Message color="danger" message='Password demasiado corto'  />}
             </div>
-            <button type="submit" className="btn btn-primary">Iniciar Sesion</button>
+            <button type="submit" className="btn btn-primary btn-block">Iniciar Sesion</button>
         </form>
     ); 
 }

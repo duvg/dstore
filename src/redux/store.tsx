@@ -2,12 +2,10 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import productsReducer, {getProductsAction} from './ducks/ProductsDuck';
 import usersReducer from './ducks/UsersDucks';
 import thunk from 'redux-thunk';
-import { reducer as formReducer } from 'redux-form';
 
 let rootReducer = combineReducers({
     products: productsReducer,
     users: usersReducer,
-    form: formReducer
 })
 
 export default function generateStore() {

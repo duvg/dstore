@@ -1,3 +1,4 @@
+// Interface de datos del producto
 export interface IProduct {
     identificador: number,
     titulo: string,
@@ -24,7 +25,7 @@ export interface IPagination {
     total_pages: number,
 }
 
-// Interface para el estado inicial
+// Interface para el estado inicial de los productos
 export interface IInitialState {
     fetched: boolean,
     fetching: boolean,

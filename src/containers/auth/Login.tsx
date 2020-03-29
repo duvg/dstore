@@ -5,7 +5,6 @@ import { Animated } from 'react-animated-css';
 
 // Componentes a utilizar
 import Card from '../../components/common/Card';
-import Container from '../../components/common/Container';
 import Title from '../../components/common/Title';
 import LoginForm from '../../components/auth/LoginForm';
 import RecoveryPassForm from '../../components/auth/RecoveryPassForm';
@@ -21,12 +20,14 @@ function Login(props: ILoginProps) {
     
     const { history, login, recoveryPassword, users }: any = props;
     const [recovery, setRecovery] = useState(false);
-    useEffect(() => {
+    useEffect(
+        () => {
             if(users.authenticated)
             {
                 history.push('/');
             }
-    }, [users.authenticated]);
+        }, [users.authenticated]
+    );
 
     
     return(
@@ -41,12 +42,20 @@ function Login(props: ILoginProps) {
                 >
                     <Card>
                         <Title text="Iniciar Sesion"/>
-                        <LoginForm  handleLogin={login} />
-                        <button 
-                            className="btn btn-link" 
-                            onClick={() => setRecovery(true)}
-                        >
-                            Olvidaste la contraseña, click aqui?</button>
+                        <LoginForm  customHandleSubmit={login} />
+                        <div className="button-group mt-1">
+                            <button 
+                                className="btn btn-link btn-sm float-left" 
+                                onClick={() => setRecovery(true)}
+                            >
+                                Olvide la contraseña?</button>
+                            <button 
+                                className="btn btn-link btn-sm float-right" 
+                                onClick={() => history.push('/register')}
+                            >
+                                registrate</button>
+                        </div>
+                        
                     </Card>
                 </Animated>
                 <Animated 
@@ -60,11 +69,12 @@ function Login(props: ILoginProps) {
                         <Title text="Recuperar Contraseña"/>
                         <RecoveryPassForm  customHandleSubmit={recoveryPassword} message={users.recoveryPassword} />
                         <button 
-                            className="btn btn-link btn-block" 
+                            className="btn btn-link btn-block btn-sm" 
                             onClick={() => setRecovery(false)}
                         >
                             Ya tienes cuenta?, Iniciar Sesion
-                        </button>                       
+                        </button>   
+                        
                     </Card>
                 </Animated>
                 </div>
