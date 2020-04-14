@@ -1,40 +1,50 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import { History } from 'history';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as ProductsDuck from '../redux/ducks/ProductsDuck';
-import { ThunkDispatch } from 'redux-thunk';
-import Product from '../components/Product/Product';
 import { IState } from '../redux/ducks';
-import { IProducts, IPagination } from '../Interfaces/ProductsInterfaces';
+import { bindActionCreators } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import Slider from '../components/common/Slider';
+import Product from '../components/Product/Product';
+import Container from '../components/common/Container';
+import * as ProductsDuck from '../redux/ducks/ProductsDuck';
+import { IProducts, IPagination } from '../Interfaces/ProductsInterfaces';
+import Preload from '../components/common/Preload';
 
 interface IHomeProps {
  data: IProducts,
  loading: boolean,
- paginationProducts: IPagination
+ paginationProducts: IPagination,
+ history: History
 }
 
-const Home = (props: IHomeProps) => {
-    const { data, loading } = props;
+function Home(props: IHomeProps) {
+    const { data, loading, history } = props;
+
+    console.log(typeof data);
+    const viewDetails = (id: number) => {
+        history.push(`/products/details/${id}`);
+    }
+    
 
     return(
-        <div>
+        <Container>
             
-            {loading && <h1>Cargando</h1>}
             <Slider />
+            { loading ? <Preload /> :
             <div className="row">
                     {Object.keys(data).map(x => {
                         const product = data[x];
+                        console.log(product);
                         return(
-                            <div className="col-md-2 text-left mb-4" key={x}>
-                                <Product product={product} />
-                                
+                            <div className="col-md-3 text-left mb-4" key={x}>
+                                <Product product={product} viewDetails={viewDetails} />
                             </div>
                         )
                     })}
             </div> 
-        </div>
+            }
+        </Container>
     );
 }
 
@@ -49,7 +59,7 @@ const mapStateToProps = (state: IState) => {
         paginationProducts
     }
 }
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => 
-    bindActionCreators(ProductsDuck, dispatch);
+//const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => 
+    //bindActionCreators(ProductsDuck, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, null)(Home);

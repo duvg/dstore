@@ -10,21 +10,13 @@ import Routes from './Routes';
 
 
 function App() {  
-  const [load, setLoad] = useState(false);
-  useEffect(
-    () => {
-      
-      setLoad(true);
-    }, []
-  );
 
 
   return (
     
     <div className="h-100">
       <Navbar/>
-      {load ? <Routes /> : <Preloader/>}
-      
+      <Routes />
     </div>
   );
 }

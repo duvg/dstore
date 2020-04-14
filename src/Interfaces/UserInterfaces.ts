@@ -16,8 +16,9 @@ export interface IAuthUser {
     correo: string,
     verificado: number,
     esAdministrador: boolean,
-    fechaCreacion: string,
-    fechaActualizacion: string,
+    fechaCreacion: string;
+    fechaActualizacion: string;
+    fechaEliminacion?: string;
 }
 
 // Iterface para datos de usuario -  registro
@@ -56,7 +57,7 @@ export interface UserInitialState {
 
 // Interface para el formulario de login y recuperación de contraseña
 export interface IAuthFormProps {
-    customHandleSubmit: () => void,
-    userId?: string,
-    message?: string
+    customHandleSubmit: any;
+    userId?: string;
+    message?: string;
 }

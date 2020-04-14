@@ -1,11 +1,14 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
-import productsReducer, {getProductsAction} from './ducks/ProductsDuck';
+//import productsReducer, {getProductsAction} from './ducks/ProductsDuck';
+import productsReducer, { getProductsThunk } from './ducks/ProductsDuck';
 import usersReducer from './ducks/UsersDucks';
+import sellersReducer from './ducks/SellerDuck';
 import thunk from 'redux-thunk';
 
 let rootReducer = combineReducers({
     products: productsReducer,
     users: usersReducer,
+    sellers: sellersReducer,
 })
 
 export default function generateStore() {
@@ -22,8 +25,7 @@ export default function generateStore() {
     );
 
     // cargar productos al inicio
-    getProductsAction()(store.dispatch);
+    getProductsThunk()(store.dispatch);
 
     return store;
-
 }

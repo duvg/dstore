@@ -1,9 +1,13 @@
 import React from 'react';
 
-const Preloader = () => {
+const Preload = () => {
     return(
-        <div className="loader">Loading...</div>
+        <div className="centerContent">
+            <div className="spinner"></div>
+        </div>
+        
+        
     );
 }
 
-export default Preloader;
+export default Preload;

@@ -9,6 +9,8 @@ import Title from '../../components/common/Title';
 import LoginForm from '../../components/auth/LoginForm';
 import RecoveryPassForm from '../../components/auth/RecoveryPassForm';
 
+import { RouteComponentProps } from 'react-router-dom';
+
 // Interfaces
 import { IState } from '../../redux/ducks/index';
 import { ILoginProps } from '../../Interfaces/UserInterfaces';   
@@ -16,13 +18,15 @@ import { ILoginProps } from '../../Interfaces/UserInterfaces';
 // Thunks
 import { login as loginThunk, recoveryPassword as recoveryPasswordThunk} from '../../redux/ducks/UsersDucks';
 
-function Login(props: ILoginProps) {
-    
-    const { history, login, recoveryPassword, users }: any = props;
+
+function Login(props: ReduxType & RouteComponentProps) {
+    console.log(props);
+    const { history, login, recoveryPassword, users } = props;
     const [recovery, setRecovery] = useState(false);
+    
     useEffect(
         () => {
-            if(users.authenticated)
+            if(users.authenticated === undefined)
             {
                 history.push('/');
             }
@@ -84,7 +88,7 @@ function Login(props: ILoginProps) {
     );
 }
 
-
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 const mapStateToProps = (state: IState) => state;
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => ({
