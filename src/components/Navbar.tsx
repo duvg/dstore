@@ -2,7 +2,7 @@ import React from  'react';
 import Icon from './common/Icon';
 import { Link } from 'react-router-dom';
 
-import { faShoppingCart, faLock } from '@fortawesome/free-solid-svg-icons'
+import { faShoppingCart, faLock } from '@fortawesome/free-solid-svg-icons';
 
 const styles = {
     shopping: {
@@ -28,7 +28,9 @@ const Navbar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <a href="/" className="nav-link">Inicio <span className="sr-only">(current)</span></a>
+                        <Link className="nav-link" to={'/'} >
+                            Inicio
+                        </Link>
                     </li>
                     {/* TODO: dinamic items for cateogories */}
                     <li className="nav-item dropdown">
@@ -46,8 +48,11 @@ const Navbar = () => {
                     </ul>
 
                     <ul className="navbar-nav ml-auto">
+                        
                         <li className="nav-item">
-                            <a href="/" className="nav-link mr-2" style={styles.shopping}> <Icon icon={faShoppingCart} />   </a>
+                            <Link className="nav-link mr-2" style={styles.shopping} to={'/cart'}>
+                                <Icon icon={faShoppingCart} />
+                            </Link>
                         </li>
                         <li className="nav-item">
                             <Link to={'/login'} className="navbar-brand">

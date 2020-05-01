@@ -1,14 +1,26 @@
 import React from 'react';
-import { IProducts } from '../../Interfaces/ProductsInterfaces';
-import { ISellers } from '../../Interfaces/SellerInterfaces';
+import { IProduct } from '../../Interfaces/ProductsInterfaces';
+import { ISeller } from '../../Interfaces/SellerInterfaces';
 
 const styles={
     imagen: {
         width: '100%',
-    }
+    },
+    avatar: {
+        width: '250px'
+    },
+    alignImage: {
+        
+    } as React.CSSProperties
 }
-const ProductDetails = (props: IProducts ) => {
-    const { product } = props;
+
+interface IProductDetailsProps {
+    product: IProduct,
+    seller: ISeller
+}
+
+const ProductDetails = (props: IProductDetailsProps ) => {
+    const { product, seller } = props;
     //console.log(typeof product.categories);
 
     
@@ -17,12 +29,12 @@ const ProductDetails = (props: IProducts ) => {
     return(
         <div className="row">
             {/* Imagen del producto */}
-            <div className="col-md-6">
+            <div className="col-md-4 pt-4">
                 <img src={product.imagen} alt={product.titulo} style={styles.imagen} />
             </div>
 
             {/* Información del producto */}
-            <div className="col-md-6 pt-3">
+            <div className="col-md-4 pt-3">
                 <h2>{product.titulo}</h2>
                 <p>{product.detalles}</p>
                 <p>
@@ -51,6 +63,16 @@ const ProductDetails = (props: IProducts ) => {
                     </p> }
                 </div>
                 
+            </div>
+            <div className="col-md-4 pt-3">
+                <h3>Información del vendedor</h3>
+                <div style={styles.alignImage} >
+                <img style={styles.avatar} src={process.env.PUBLIC_URL + '/images/avatar.png'} alt=""/>
+                </div>
+                <br/>
+                <strong>Nombre</strong>: {seller.nombre} <br/>
+                <strong>Correo</strong>: {seller.correo} <br/>
+                <strong>Registrado desde</strong>: { seller.fechaCreacion}
             </div>
             
         </div>

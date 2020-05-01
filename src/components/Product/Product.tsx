@@ -2,11 +2,11 @@ import React from 'react';
 import Icon from '../common/Icon';
 import { IProduct } from '../../Interfaces/ProductsInterfaces';
 import { faShoppingCart, faEye  ,faLock } from '@fortawesome/free-solid-svg-icons'
-
+import { Link } from 'react-router-dom';
 
 interface IProductProps {
     product: IProduct,
-    viewDetails: any
+    addProductToCart: (product: IProduct) => void
 }
 
 
@@ -23,7 +23,7 @@ const styles = {
  * @param props dale XD
  */
 const Product = (props: IProductProps) => {
-    const { product, viewDetails } = props;
+    const { product, addProductToCart } = props;
     
     return(
         <div className="card h-100 border border-info">
@@ -65,12 +65,10 @@ const Product = (props: IProductProps) => {
                 </p>
             </div>
             <div className="card-footer">
-                <button 
-                    onClick={() => viewDetails(product.identificador) }
-                    className="btn btn-success btn-sm float-left">
+                <Link to={`/products/details/${product.identificador}`} className="btn btn-success btn-sm float-left">
                     <Icon icon={faEye} /> Ver 
-                </button>
-                <button className="btn btn-primary btn-sm  float-right">
+                </Link>
+                <button onClick={() => addProductToCart(product)} className="btn btn-primary btn-sm  float-right">
                     Agregar <Icon icon={faShoppingCart} /> 
                 </button>
             </div>

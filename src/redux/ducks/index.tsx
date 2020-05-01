@@ -48,4 +48,8 @@ export interface IState {
         fetched: false;
         fetching: false;
     },
+    cart: {
+        products: IProducts;
+        total: number;
+    }
 }

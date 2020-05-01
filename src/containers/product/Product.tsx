@@ -11,19 +11,22 @@ import Preload from '../../components/common/Preload';
 // Ducks
 import {getProductThunk } from '../../redux/ducks/ProductsDuck';
 import { getSellerThunk } from '../../redux/ducks/SellerDuck';
-import SellerDetails from '../../components/seller/SellerDetails';
 
 function Product(props: ReduxType & RouteComponentProps<{id: string}>) {
     
-    const { current, currentSeller, loading, getProduct, match } = props;
+    const { current, currentSeller, loading, getProduct, history, match } = props;
     const { id } = match.params;
     const { products } = currentSeller;
-    console.log(currentSeller);
+    
     
 
     useEffect(() => {
         getProduct(id);
-    }, []);
+    }, [id]);
+
+    const addToCart = (id: number) => {
+        // TODO: add to cart
+    }
 
     return(
         <div>
@@ -31,30 +34,28 @@ function Product(props: ReduxType & RouteComponentProps<{id: string}>) {
                 loading ? 
                     <Preload />
                 :
-                    <div className="row">
+                    <div className="container">
                         
-                        <ProductDetails product={current}  />
-                        <SellerDetails seller={currentSeller} />
+                            <ProductDetails product={current} seller={currentSeller}   />
                         
                         
-                        <div className="row p-3">
+                        
                             <div className="col-md-12 text-center">
                                 <h4>Mas productos de este vendedor</h4>
                                 <hr/>
                             </div>
+                            <div className="row">
                             {products && Object.keys(products).map(x => {
                                 const product = products[x];
                                 console.log()
                                 return(
                                     <div className="col-md-2" key={x}>
-                                        <SellerProducts  product={product} />
+                                        <SellerProducts  product={product}  addToCart={addToCart}/>
                                     </div>
                                     
                                 )    
                             })}
-                            
-                        </div>
-                        
+                            </div>                       
                     </div>
             }
             

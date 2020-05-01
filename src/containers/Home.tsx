@@ -8,8 +8,10 @@ import Slider from '../components/common/Slider';
 import Product from '../components/Product/Product';
 import Container from '../components/common/Container';
 import * as ProductsDuck from '../redux/ducks/ProductsDuck';
-import { IProducts, IPagination } from '../Interfaces/ProductsInterfaces';
+import { getAddProductThunk } from '../redux/ducks/CartDuck';
+import { IProducts, IPagination, IProduct } from '../Interfaces/ProductsInterfaces';
 import Preload from '../components/common/Preload';
+import { RouteComponentProps } from 'react-router-dom';
 
 interface IHomeProps {
  data: IProducts,
@@ -18,15 +20,18 @@ interface IHomeProps {
  history: History
 }
 
-function Home(props: IHomeProps) {
-    const { data, loading, history } = props;
+function Home(props: ReduxType & RouteComponentProps) {
+    const { data, loading, history, addToCart  } = props;
 
-    console.log(typeof data);
-    const viewDetails = (id: number) => {
-        history.push(`/products/details/${id}`);
+    const addProductToCart = (product: IProduct) => {
+        const cartProduct = {
+            identificador: product.identificador,
+            titulo: product.titulo,
+            precio: product.precio,
+        }
+        addToCart(cartProduct);
     }
     
-
     return(
         <Container>
             
@@ -35,10 +40,9 @@ function Home(props: IHomeProps) {
             <div className="row">
                     {Object.keys(data).map(x => {
                         const product = data[x];
-                        console.log(product);
                         return(
                             <div className="col-md-3 text-left mb-4" key={x}>
-                                <Product product={product} viewDetails={viewDetails} />
+                                <Product product={product} addProductToCart={addProductToCart} />
                             </div>
                         )
                     })}
@@ -48,8 +52,11 @@ function Home(props: IHomeProps) {
     );
 }
 
+
+
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 const mapStateToProps = (state: IState) => {
-    console.log(state);
+    
     const { products: { data, fetched, fetching, paginationProducts} } = state;
     const loading = fetching || !fetched;
 
@@ -59,7 +66,8 @@ const mapStateToProps = (state: IState) => {
         paginationProducts
     }
 }
-//const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => 
-    //bindActionCreators(ProductsDuck, dispatch);
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => ({
+    addToCart: (payload: any) => dispatch(getAddProductThunk(payload))
+});
 
-export default connect(mapStateToProps, null)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

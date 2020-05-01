@@ -3,12 +3,15 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import productsReducer, { getProductsThunk } from './ducks/ProductsDuck';
 import usersReducer from './ducks/UsersDucks';
 import sellersReducer from './ducks/SellerDuck';
+import cartReducer from './ducks/CartDuck';
 import thunk from 'redux-thunk';
 
 let rootReducer = combineReducers({
     products: productsReducer,
     users: usersReducer,
     sellers: sellersReducer,
+    cart: cartReducer,
+    
 })
 
 export default function generateStore() {
