@@ -15,6 +15,7 @@ export interface IState {
     categories: {
         data: ICategories;
         pagination: IPagination;
+        products: IProducts;
         fetched: false;
         fetching: false;
     },

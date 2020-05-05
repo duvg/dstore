@@ -68,7 +68,7 @@ const getProductCategorySuccess = (categories: ICategories) => ({
 
 
 // thunk actions
-export const getProductCategoriesAction = (id: string) => async (dispatch: Dispatch) => {
+export const getProductCategoriesThunk = (id: string) => async (dispatch: Dispatch) => {
     dispatch(getProductCategoryStart());
 
     try {

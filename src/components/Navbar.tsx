@@ -3,6 +3,7 @@ import Icon from './common/Icon';
 import { Link } from 'react-router-dom';
 
 import { faShoppingCart, faLock } from '@fortawesome/free-solid-svg-icons';
+import { ICategories } from '../Interfaces/CategoryInterfaces';
 
 const styles = {
     shopping: {
@@ -14,9 +15,12 @@ const styles = {
         borderRadius: '5px'
     } as React.CSSProperties
 }
-
-const Navbar = () => {
-    
+interface INavbarProps {
+    links?: ICategories;
+    loadProductsCategory: (id: string) => void;
+}
+const Navbar = (props: INavbarProps) => {
+    const { links, loadProductsCategory } = props;
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
             <div className="container">
@@ -38,10 +42,20 @@ const Navbar = () => {
                         Categorias
                         </a>
                         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a href="/" className="dropdown-item">Action</a>
-                        <a href="/" className="dropdown-item">Another action</a>
-                        <div className="dropdown-divider"></div>
-                        <a href="/" className="dropdown-item">Something else here</a>
+                        { links && Object.keys(links).map(x => {
+                            const link = links[x];
+                            return(
+                                <Link 
+                                    key={x}
+                                    to={ `/category/${link.titulo}`}
+                                    className="dropdown-item"
+                                    onClick={() => loadProductsCategory(link.identificador)}  
+                                >
+                                    { link.titulo }
+                                </Link>
+                            )
+                        }) }
+                       
                         </div>
                     </li>
                     

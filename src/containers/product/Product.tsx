@@ -19,6 +19,7 @@ function Product(props: ReduxType & RouteComponentProps<{id: string}>) {
     const { products } = currentSeller;
     
     
+    
 
     useEffect(() => {
         getProduct(id);

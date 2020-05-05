@@ -16,6 +16,7 @@ const GET_PRODUCT_ERROR = "app/products/GET_PRODUCT_ERROR";
 const GET_PRODUCT_SUCCESS = "app/products/GET_PRODUCT_SUCCESS";
 
 
+
 // Estado inicial
 let initialState: IInitialState = {
     fetched: false,
@@ -31,7 +32,7 @@ let initialState: IInitialState = {
 export default function reducer(state = initialState, action: AnyAction) {
     switch (action.type) {
 
-        // Load products from api
+        // Cargar productos 
         case GET_PRODUCTS_START:
             return {
                 ...state,
@@ -53,7 +54,7 @@ export default function reducer(state = initialState, action: AnyAction) {
                 paginationProducts: action.payload.paginationProducts
             }
 
-        // Load product detail
+        // cargar un producto
         case GET_PRODUCT_START:
             return {
                 ...state,
@@ -75,6 +76,8 @@ export default function reducer(state = initialState, action: AnyAction) {
                 fetched: true,
                 current: action.payload
             }
+        
+        
         default:
             return state
     }
@@ -110,20 +113,19 @@ const getProductStartAction = () => ({
 const getProductSuccessAction = (product: IProduct, categories: ICategories) => {
 
     product['categories'] = categories;
-    //console.log(typeof product.categories);
+    
     return {
         type: GET_PRODUCT_SUCCESS,
         payload: product
 
     }
-}
+};
 
 // Error al obtener el producto
 const getProductErrorAction = (error: string) => ({
     type: GET_PRODUCT_ERROR,
     payload: error
-})
-
+});
 
 // thunks actions
 export const getProductsThunk = () => async (dispatch: Dispatch) => {
@@ -132,6 +134,7 @@ export const getProductsThunk = () => async (dispatch: Dispatch) => {
     // llamada a la api de productos
     try {
         let productos = await getProducts();
+        
         dispatch(getProductsSuccessAction(productos.data.data, productos.data.meta.pagination));
     } catch(e) {
         

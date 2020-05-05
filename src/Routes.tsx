@@ -6,6 +6,7 @@ import Home from './containers/Home';
 import Login from './containers/auth/Login';
 import Product from './containers/product/Product';
 import Register from './containers/auth/Register';
+import CategoryProducts from './containers/category/CategoryProducts';
 import Preload from './components/common/Preload';
 
 
@@ -19,6 +20,7 @@ function Routes(props: any) {
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/cart' component={Cart} />
+            <Route exact path='/category/:category' component={CategoryProducts} />
             <Route exact path='/products/details/:id' component={Product} />
         </Switch>
     );

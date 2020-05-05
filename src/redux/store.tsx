@@ -4,14 +4,16 @@ import productsReducer, { getProductsThunk } from './ducks/ProductsDuck';
 import usersReducer from './ducks/UsersDucks';
 import sellersReducer from './ducks/SellerDuck';
 import cartReducer from './ducks/CartDuck';
+import categoriesReducer, { getCategoriesThunk } from './ducks/CategoryDuck';
 import thunk from 'redux-thunk';
 
+
 let rootReducer = combineReducers({
+    categories: categoriesReducer,
     products: productsReducer,
-    users: usersReducer,
     sellers: sellersReducer,
+    users: usersReducer,
     cart: cartReducer,
-    
 })
 
 export default function generateStore() {
@@ -29,6 +31,9 @@ export default function generateStore() {
 
     // cargar productos al inicio
     getProductsThunk()(store.dispatch);
+    
+    // Cargar las categorias del menu
+    getCategoriesThunk()(store.dispatch);
 
     return store;
 }
