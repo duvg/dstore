@@ -1,9 +1,12 @@
 import React from  'react';
+
 import Icon from './common/Icon';
 import { Link } from 'react-router-dom';
 
 import { faShoppingCart, faLock } from '@fortawesome/free-solid-svg-icons';
 import { ICategories } from '../Interfaces/CategoryInterfaces';
+import { IState } from '../redux/ducks';
+import { IAuthUser } from '../Interfaces/UserInterfaces';
 
 const styles = {
     shopping: {
@@ -18,9 +21,12 @@ const styles = {
 interface INavbarProps {
     links?: ICategories;
     loadProductsCategory: (id: string) => void;
+    authUser?: IAuthUser
 }
 const Navbar = (props: INavbarProps) => {
-    const { links, loadProductsCategory } = props;
+    console.log(props);
+    const { authUser, links, loadProductsCategory } = props;
+    
     return(
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
             <div className="container">
@@ -75,18 +81,21 @@ const Navbar = (props: INavbarProps) => {
                             
                         </li>
                         
-                        <li className="nav-item dropdown">
-                            <a href="/" className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Admin user
-                            </a>
-                            <div className="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a href="/" className="dropdown-item">Mis compras</a>
-                            <a href="/" className="dropdown-item">Perfil</a>
-                            <a href="/" className="dropdown-item">Vender</a>
-                            <div className="dropdown-divider"></div>
-                            <a href="/" className="dropdown-item">Salir</a>
-                            </div>
-                        </li>
+                        { authUser?.nombre !== "" &&
+                            <li className="nav-item dropdown">
+                                <a href="/" className="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {authUser?.nombre} { authUser?.apellidos}
+                                </a>
+                                <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a href="/" className="dropdown-item">Mis compras</a>
+                                <a href="/" className="dropdown-item">Perfil</a>
+                                <a href="/" className="dropdown-item">Vender</a>
+                                <div className="dropdown-divider"></div>
+                                <a href="/" className="dropdown-item">Salir</a>
+                                </div>
+                            </li>
+                        }
+                        
                     </ul>
                     
                 </div>
@@ -95,4 +104,7 @@ const Navbar = (props: INavbarProps) => {
         </nav>
     );
 }
-export default Navbar;
+
+
+
+export default Navbar

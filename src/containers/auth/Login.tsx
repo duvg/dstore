@@ -11,6 +11,10 @@ import RecoveryPassForm from '../../components/auth/RecoveryPassForm';
 
 import { RouteComponentProps } from 'react-router-dom';
 
+// swal
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 // Interfaces
 import { IState } from '../../redux/ducks/index';
 import { ILoginProps } from '../../Interfaces/UserInterfaces';   
@@ -21,16 +25,28 @@ import { login as loginThunk, recoveryPassword as recoveryPasswordThunk} from '.
 
 function Login(props: ReduxType & RouteComponentProps) {
     console.log(props);
-    const { history, login, recoveryPassword, users } = props;
+    const { history, login } = props;
+    const { authenticated, authError, recoveryPassword} = props;
     const [recovery, setRecovery] = useState(false);
+    
+    const MySwal = withReactContent(Swal);
     
     useEffect(
         () => {
-            if(users.authenticated === undefined)
+            if(authenticated !== false)
             {
                 history.push('/');
             }
-        }, [users.authenticated]
+            if(authError !== null)
+            {
+                MySwal.fire({
+                    title: 'Acceso denegado',
+                    text: 'Las credenciasles ingresadas son incorrectas, intente nuevamente',
+                    icon: 'error',
+                  });
+            }
+            console.log('abe95@example.com');
+        }, [authenticated, authError]
     );
 
     
@@ -71,7 +87,7 @@ function Login(props: ReduxType & RouteComponentProps) {
                 >
                     <Card>
                         <Title text="Recuperar Contraseña"/>
-                        <RecoveryPassForm  customHandleSubmit={recoveryPassword} message={users.recoveryPassword} />
+                        <RecoveryPassForm  customHandleSubmit={recoveryPassword} message={recoveryPassword && ''} />
                         <button 
                             className="btn btn-link btn-block btn-sm" 
                             onClick={() => setRecovery(false)}
@@ -89,7 +105,14 @@ function Login(props: ReduxType & RouteComponentProps) {
 }
 
 type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
-const mapStateToProps = (state: IState) => state;
+const mapStateToProps = (state: IState) => {
+    const  {users : { authenticated, authError, recoveryPassword }} = state;
+    return {
+        authenticated,
+        authError,
+        recoveryPassword
+    }
+};
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => ({
     login: (payload: any) => dispatch(loginThunk(payload)),

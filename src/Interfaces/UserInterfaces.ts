@@ -13,6 +13,7 @@ export interface ILoginProps {
 export interface IAuthUser {
     identificador: string,
     nombre: string,
+    apellidos: string,
     correo: string,
     verificado: number,
     esAdministrador: boolean,
@@ -50,7 +51,7 @@ export interface IAuthToken {
 // Interface del estado inicial del usuario
 export interface UserInitialState {
     token: IToken,
-    data: IAuthUser,
+    authUser: IAuthUser,
     authenticated: boolean,
     authError: null
 }

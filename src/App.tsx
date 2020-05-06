@@ -19,27 +19,29 @@ interface IAppProps {
 
 function App(props: ReduxType & IAppProps) {  
 
-  const { loadProductsThunk } = props;
-
+  const { authUser, loadProductsThunk } = props;
+  console.log(authUser);
   const loadProductsCategory = (id: string) => {
     console.log(id);
     loadProductsThunk(id);
+    
   }
   return (
     
     <div className="h-100">
-      <Navbar links={props.data} loadProductsCategory={loadProductsCategory}/>
+      <Navbar links={props.data} authUser={authUser} loadProductsCategory={loadProductsCategory}/>
       <Routes />
     </div>
   );
 }
 
 const mapStateToProps = (state: IState) => {
-  const { categories: { data } } = state;
-  return { data };
+  const { categories: { categories} } = state;
+  const { users: { authUser }} = state;
+  return { categories, authUser };
 }
 
-type ReduxType = ReturnType<typeof mapDispatchToProps>;
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => ({
   loadProductsThunk: (payload: string) => dispatch(getCategoryProductsThunk(payload)) 

@@ -13,7 +13,7 @@ export interface IState {
         pagination: IPagination;
     }
     categories: {
-        data: ICategories;
+        categories: ICategories;
         pagination: IPagination;
         products: IProducts;
         fetched: false;
@@ -35,7 +35,7 @@ export interface IState {
     users: {
         authError: string;
         authenticated: boolean;
-        data: IAuthUser;
+        authUser: IAuthUser;
         errorAuthUserData: string;
         recoveryPassword: string;
         token: IAuthToken;

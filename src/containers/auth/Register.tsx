@@ -19,17 +19,18 @@ import { register as registerThunk } from '../../redux/ducks/UsersDucks';
 // swal
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { RouteComponentProps } from 'react-router-dom';
 
 
-const Register = (props: IState) => {
-    const { register, history }: any  = props;
-    const { identificador } = props.users.data;
+const Register = (props: ReduxType & RouteComponentProps) => {
+    const { authUser, register, history }  = props;
+    
 
     const MySwal = withReactContent(Swal);
 
      useEffect(
           () => {
-               if(identificador != "") {
+               if(authUser.identificador != "") {
                     MySwal.fire({
                          title: 'Registrado',
                          text: 'Te has registrado satisfactoriamente, se ha enviado un correo de verificación, revisa tu bandeja de entrada',
@@ -39,7 +40,7 @@ const Register = (props: IState) => {
                          history.push('/login');
                        });
                }              
-          }, [identificador]
+          }, [authUser.identificador]
      );
     
     return(
@@ -49,7 +50,7 @@ const Register = (props: IState) => {
                 <div className="col-xs-8 col-md-6 col-sm-8 col-lg-4 text-left my-auto">
                     <Card>
                         <Title text="Registrate" />
-                        <RegisterForm customHandleSubmit={register} userId={identificador}/>
+                        <RegisterForm customHandleSubmit={register} userId={authUser.identificador}/>
                         <button 
                             className="btn btn-link btn-block btn-sm" 
                             onClick={() => history.push('/login')}
@@ -64,7 +65,14 @@ const Register = (props: IState) => {
 
     );
 }
-const mapStateToProps = (state: IState) => state;
+
+type ReduxType = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+const mapStateToProps = (state: IState) => {
+    const { users: {authUser}} = state;
+    return {
+        authUser
+    }
+};
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, any>) => ({
     register: (payload: IUserData) => dispatch(registerThunk(payload))
 })

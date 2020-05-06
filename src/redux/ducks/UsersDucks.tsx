@@ -33,9 +33,10 @@ const InitialState: UserInitialState = {
         token_type: '',
         expires_in: ''
     },
-    data: {
+    authUser: {
         identificador: '',
         nombre: '',
+        apellidos: '',
         correo: '',
         verificado: 0,
         esAdministrador: false,
@@ -63,7 +64,7 @@ export default function reducer(state = InitialState, action: AnyAction) {
             return {
                 ...state,
                 token: action.payload.token,
-                data: action.payload.user,
+                authUser: action.payload.user,
                 authenticated:  true,
                 authError: null
             }
@@ -88,7 +89,7 @@ export default function reducer(state = InitialState, action: AnyAction) {
         case ERROR_AUTH_USERDATA:
             return {
                 ...state,
-                errorAuthUserData: action.payload
+                authError: action.payload
             }
         case SUCCESS_AUTH_USERDATA:
             return {

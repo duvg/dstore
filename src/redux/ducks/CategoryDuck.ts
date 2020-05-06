@@ -18,7 +18,7 @@ const GET_CATEGORY_PRODUCTS_SUCCESS = 'app/products/GET_CATEGORY_PRODUCTS_SUCCES
 
 // Estado Inicial
 const initialState = {
-    data: [],
+    categories: [],
     products: [],
     fetching: false,
     fetched: false,
@@ -48,7 +48,7 @@ export default function reducer(state = initialState, action: AnyAction) {
                 fetching: false,
                 fetched: true,
                 error: '',
-                data: action.payload.data,
+                categories: action.payload.data,
             }
         // cargar productos pro categoria
         case GET_CATEGORY_PRODUCTS_START:
